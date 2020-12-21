@@ -53,10 +53,10 @@ function updateLights(ctx, lights, canvas) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (var i=0; i<lights.length; i++) {
 
-    if (getRandomInt(0, 2) == 1) {
+    //if (getRandomInt(0, 5) == 1) {
       // don't all blink at the same time
       lights[i].intensity = lights[i].intensity === 0 ? 1 : 0;
-    }
+    //}
 
     drawLight(ctx, lights[i]);
   }
