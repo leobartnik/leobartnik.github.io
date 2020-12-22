@@ -53,7 +53,9 @@ function drawLight(light) {
 }
 
 function updateLights() {
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   for (var i=0; i<lights.length; i++) {
     lights[i].intensityPathIndex =
         lights[i].intensityPathIndex === intensityPath.length - 1
@@ -64,19 +66,26 @@ function updateLights() {
     var neighbor = i - 1;
     if (neighbor < 0) { neighbor = lightCount - 1; }
     var n = lights[neighbor];
+
     if (lights[i].intensityPathIndex == 0) { // 'off'
       if (n.interval > lights[i].interval) {
-        lights[i].interval = n.interval;
-        lights[i].r = n.r;
-        lights[i].g = n.g;
-        lights[i].b = n.b;
-        lights[i].intensityPathIndex = n.intensityPathIndex;
-        console.log("changed color");
-        last = new Date;
+        if (n.interval - lights[i].interval < 50) {
+          lights[i].interval = n.interval;
+          lights[i].r = n.r;
+          lights[i].g = n.g;
+          lights[i].b = n.b;
+          lights[i].intensityPathIndex = n.intensityPathIndex;
+          console.log("changed color");
+          last = new Date;
+        }
+        else {
+          lights[i].interval += 50;//Math.floor(n.interval/2);// 10; //n.interval;
+        }
       }
     }
 
     drawLight(lights[i]);
+
   }
 
   var now = new Date();
