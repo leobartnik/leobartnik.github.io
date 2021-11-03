@@ -1,46 +1,43 @@
-// globals
-var canvas = document.getElementById("outside");
-var ctx = canvas.getContext("2d");
-var intensityPath = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
-var lights = [];
-var lightCount = 100;
-var margin = 10;
-var last = new Date();
-var intervalId = 0;
-var timeout = 5000;
-
 function run() {
-  //console.log("intensityPath.length: " + intensityPath.length);
-  lights = [];
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  /*
+    https://stackoverflow.com/questions/10396991/clearing-circular-regions-from-html5-canvas
+    .arc, .clip(), .clearRect() to clear whole canvas but only clipped area will change
+    (also has what may be a cool app in the comments with link to http://jsfiddle.net/HADky/, ambient lights)
+  */
+  var canvas = document.getElementById("outside");
+  var ctx = canvas.getContext("2d");
+
+  var lights = [];
+  var lightCount = 100;
+
   for (var i=0; i<lightCount; i++) {
-    var light = lightModel();
+    var light = lightModel(canvas.width, canvas.height);
     lights.push(light);
-    drawLight(light);
+    drawLight(ctx, light);
   }
-  intervalId = setInterval(updateLights, 100);
+
+  setInterval(function() { updateLights(ctx, lights, canvas); }, 300);
 }
 
-function lightModel() {
+function lightModel(canvasWidth, canvasHeight) {
   var light = {
-    "interval": getRandomInt(10, 1100),
+    "interval": getRandomInt(100, 1000),
     "ambientLight": 1,
     "ambientLightIntensity": function() { return 'rgba(0,0,0,' + (1-this.ambientLight) + ')' },
-     "intensity": function () { return intensityPath[this.intensityPathIndex]; },
-     "intensityPathIndex": getRandomInt(0, intensityPath.length - 1),
-     "x": getRandomInt(margin, canvas.width - margin*2),
-     "y": getRandomInt(margin, canvas.height - margin*2),
+     "intensity": getRandomInt(0, 2),
+     "x": getRandomInt(0, canvasWidth),
+     "y": getRandomInt(0, canvasHeight),
      "r": getRandomInt(0, 255),
      "g": getRandomInt(0, 255),
      "b": getRandomInt(0, 255),
-     "a": function() { return (1 - this.intensity()); },
+     "a": function() { return (1-this.intensity); },
      "color": function() { return 'rgba(' + this.r + ', ' + this.g + ', ' + this.b + ', ' + this.a() + ')'; },
      "radius": getRandomInt(5, 5)
   };
   return light;
 }
 
-function drawLight(light) {
+function drawLight(ctx, light) {
   var g = ctx.createRadialGradient(light.x, light.y, 0, light.x, light.y, light.radius);
   g.addColorStop(0, light.color());
   g.addColorStop(1, light.ambientLightIntensity());
@@ -52,50 +49,17 @@ function drawLight(light) {
   ctx.fill();
 }
 
-function updateLights() {
-
+function updateLights(ctx, lights, canvas) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
   for (var i=0; i<lights.length; i++) {
-    lights[i].intensityPathIndex =
-        lights[i].intensityPathIndex === intensityPath.length - 1
-          ? 0
-          : lights[i].intensityPathIndex + 1;
 
+    //if (getRandomInt(0, 5) == 1) {
+      // don't all blink at the same time
+      lights[i].intensity = lights[i].intensity === 0 ? 1 : 0;
+    //}
 
-    var neighbor = i - 1;
-    if (neighbor < 0) { neighbor = lightCount - 1; }
-    var n = lights[neighbor];
-
-    if (lights[i].intensityPathIndex == 0) { // 'off'
-      if (n.interval > lights[i].interval) {
-        if (n.interval - lights[i].interval < 50) {
-          lights[i].interval = n.interval;
-          lights[i].r = n.r;
-          lights[i].g = n.g;
-          lights[i].b = n.b;
-          lights[i].intensityPathIndex = n.intensityPathIndex;
-          console.log("changed color");
-          last = new Date;
-        }
-        else {
-          lights[i].interval += 50;//Math.floor(n.interval/2);// 10; //n.interval;
-        }
-      }
-    }
-
-    drawLight(lights[i]);
-
+    drawLight(ctx, lights[i]);
   }
-
-  var now = new Date();
-  if ( (now - last) > timeout) {
-   console.log("reset");
-   last = now;
-   clearInterval(intervalId);
-   run();
-  }
-
 }
 
 function getRandomInt(lower, upper) {
