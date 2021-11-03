@@ -10,12 +10,12 @@ body {
   background-image: url("tree.jpg");
   margin: auto;
   width: 675;
-  height: 500;
+  height: 900;
 }
 
 #outside {
   margin: auto;
   width: 675;
-  height: 500;
+  height: 900;
   /* border: 1px solid #ff0000; */
 }
