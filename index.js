@@ -10,7 +10,6 @@ var intervalId = 0;
 var timeout = 5000;
 
 function run() {
-  //console.log("intensityPath.length: " + intensityPath.length);
   lights = [];
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (var i=0; i<lightCount; i++) {
@@ -75,7 +74,6 @@ function updateLights() {
           lights[i].g = n.g;
           lights[i].b = n.b;
           lights[i].intensityPathIndex = n.intensityPathIndex;
-          //console.log("changed color");
           last = new Date;
         }
         else {
@@ -90,7 +88,6 @@ function updateLights() {
 
   var now = new Date();
   if ( (now - last) > timeout) {
-   //console.log("reset");
    last = now;
    clearInterval(intervalId);
    run();
