@@ -6,7 +6,7 @@ var lights = [];
 var lightCount = 100;
 var margin = 10;
 var last = new Date();
-var intervalId = 0;
+var lightTimer = 0;
 var timeout = 5000;
 
 function run() {
@@ -17,7 +17,7 @@ function run() {
     lights.push(light);
     drawLight(light);
   }
-  intervalId = setInterval(updateLights, 100);
+  lightTimer = setInterval(updateLights, 100);
 }
 
 function lightModel() {
@@ -34,7 +34,8 @@ function lightModel() {
      "b": getRandomInt(0, 255),
      "a": function() { return (1 - this.intensity()); },
      "color": function() { return 'rgba(' + this.r + ', ' + this.g + ', ' + this.b + ', ' + this.a() + ')'; },
-     "radius": getRandomInt(5, 5)
+     "radius": getRandomInt(5, 5),
+     "resetNextPass": false
   };
   return light;
 }
@@ -56,43 +57,44 @@ function updateLights() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (var i=0; i<lights.length; i++) {
-    lights[i].intensityPathIndex =
-        lights[i].intensityPathIndex === intensityPath.length - 1
+
+    var current = lights[i];
+    current.intensityPathIndex =
+        current.intensityPathIndex === intensityPath.length - 1
           ? 0
-          : lights[i].intensityPathIndex + 1;
+          : current.intensityPathIndex + 1;
 
-
-    var neighbor = i - 1;
-    if (neighbor < 0) { neighbor = lightCount - 1; }
-    var n = lights[neighbor];
-
-    if (lights[i].intensityPathIndex == 0) { // 'off'
-      if (n.interval > lights[i].interval) {
-        if (n.interval - lights[i].interval < 50) {
-          lights[i].interval = n.interval;
-          lights[i].r = n.r;
-          lights[i].g = n.g;
-          lights[i].b = n.b;
-          lights[i].intensityPathIndex = n.intensityPathIndex;
+    var neighborIndex = i - 1;
+    if (neighborIndex < 0) { neighborIndex = lightCount - 1; }
+    var neighbor = lights[neighborIndex];
+    
+    if (current.intensityPathIndex === 1) { // switch while 'on' to reduce flicker // 'off'
+      if (neighbor.interval > current.interval) {
+        if (neighbor.interval - current.interval < 50) {
+          current.interval = neighbor.interval;
+          current.r = neighbor.r;
+          current.g = neighbor.g;
+          current.b = neighbor.b;
+          current.intensityPathIndex = neighbor.intensityPathIndex;
           last = new Date;
         }
         else {
-          lights[i].interval += 50;//Math.floor(n.interval/2);// 10; //n.interval;
+          current.interval += 50;//Math.floor(neighbor.interval/2);// 10; //neighbor.interval;
         }
       }
     }
 
-    drawLight(lights[i]);
+    drawLight(current);
 
   }
 
   var now = new Date();
   if ( (now - last) > timeout) {
    last = now;
-   clearInterval(intervalId);
+   clearInterval(lightTimer);
+   //console.log("ctx.globalAlpha: " + ctx.globalAlpha);
    run();
   }
-
 }
 
 function getRandomInt(lower, upper) {
