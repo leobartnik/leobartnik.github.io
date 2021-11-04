@@ -2,6 +2,7 @@
 var canvas = document.getElementById("outside");
 var ctx = canvas.getContext("2d");
 var intensityPath = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
+//var intensityPath = [1.0, 0.8, 0.6, 0.4, 0.2, 0, 0.2, 0.4, 0.6, 0.8];
 var lights = [];
 var lightCount = 100;
 var margin = 10;
@@ -34,7 +35,8 @@ function lightModel() {
      "b": getRandomInt(0, 255),
      "a": function() { return (1 - this.intensity()); },
      "color": function() { return 'rgba(' + this.r + ', ' + this.g + ', ' + this.b + ', ' + this.a() + ')'; },
-     "radius": getRandomInt(5, 5)
+     "radius": getRandomInt(5, 5)//,
+     //"syncOnNext": false
   };
   return light;
 }
@@ -74,13 +76,21 @@ function updateLights() {
           current.r = neighbor.r;
           current.g = neighbor.g;
           current.b = neighbor.b;
-          current.intensityPathIndex = neighbor.intensityPathIndex;
-          last = new Date;
+          //if (current.intensityPathIndex != neighbor.intensityPathIndex){
+            current.intensityPathIndex = neighbor.intensityPathIndex;
+            //current.syncOnNext = true;
+          //}
+          last = new Date; // move to else if?
         }
         else {
           current.interval += 50;//Math.floor(neighbor.interval/2);// 10; //neighbor.interval;
         }
       }
+      // else if (current.syncOnNext) {
+      //   console.log("syncing");
+      //   current.intensityPathIndex = neighbor.intensityPathIndex;
+      //   current.syncOnNext = false;
+      // }
     }
 
     drawLight(current);
