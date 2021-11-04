@@ -70,7 +70,8 @@ function updateLights() {
     if (neighborIndex < 0) { neighborIndex = lightCount - 1; }
     var neighbor = lights[neighborIndex];
     
-    if (current.intensityPathIndex === 1) { // switch while 'on' to reduce flicker 
+    //if (current.intensityPathIndex === 1) { // switch while 'on' to reduce flicker 
+    if (current.intensity() === 1) {
       if (neighbor.interval > current.interval) {
         if (neighbor.interval - current.interval < 50) {
           current.interval = neighbor.interval;
