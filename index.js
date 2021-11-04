@@ -40,7 +40,7 @@ function lightModel() {
 }
 
 function drawLight(light) {
-  var g = ctx.createRadialGradient(light.x, light.y, 0, light.x, light.y, light.radius);
+  var g = ctx.createRadialGradient(light.x, light.y, 3, light.x, light.y, light.radius);
   g.addColorStop(0, light.color());
   g.addColorStop(1, light.ambientLightIntensity());
 
