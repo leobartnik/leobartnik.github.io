@@ -34,8 +34,7 @@ function lightModel() {
      "b": getRandomInt(0, 255),
      "a": function() { return (1 - this.intensity()); },
      "color": function() { return 'rgba(' + this.r + ', ' + this.g + ', ' + this.b + ', ' + this.a() + ')'; },
-     "radius": getRandomInt(5, 5),
-     "resetNextPass": false
+     "radius": getRandomInt(5, 5)
   };
   return light;
 }
@@ -68,7 +67,7 @@ function updateLights() {
     if (neighborIndex < 0) { neighborIndex = lightCount - 1; }
     var neighbor = lights[neighborIndex];
     
-    if (current.intensity() === 1) {
+    if (current.intensity() === 1) { // 1 indicates light is 'off' because of calc that subtracts intensity
       if (neighbor.interval > current.interval) {
         if (neighbor.interval - current.interval < 50) {
           current.interval = neighbor.interval;
@@ -85,16 +84,12 @@ function updateLights() {
     }
 
     drawLight(current);
-
   }
 
   var now = new Date();
-  //console.log("lights[0].intensity: " + lights[0].intensity());
-  if ( ((now - last) > timeout) &&  lights[0].intensity() === 1) {
-  //if ( (now - last) > timeout ) {
+  if ( ((now - last) > timeout) && lights[0].intensity() === 1) {
    last = now;
    clearInterval(lightTimer);
-   //console.log("ctx.globalAlpha: " + ctx.globalAlpha);
    run();
   }
 }
