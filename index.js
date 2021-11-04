@@ -2,8 +2,6 @@
 var canvas = document.getElementById("outside");
 var ctx = canvas.getContext("2d");
 var intensityPath = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
-//var fadeOutPath = [1.0, 0.8, 0.6, 0.4, 0.2, 0];
-//var fadeInPath = [0.2, 0.4, 0.6, 0.8, 1.0];
 var lights = [];
 var lightCount = 100;
 var margin = 10;
@@ -70,7 +68,6 @@ function updateLights() {
     if (neighborIndex < 0) { neighborIndex = lightCount - 1; }
     var neighbor = lights[neighborIndex];
     
-    //if (current.intensityPathIndex === 1) { // switch while 'on' to reduce flicker 
     if (current.intensity() === 1) {
       if (neighbor.interval > current.interval) {
         if (neighbor.interval - current.interval < 50) {
