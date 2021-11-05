@@ -35,8 +35,7 @@ function lightModel() {
      "b": getRandomInt(0, 255),
      "a": function() { return (1 - this.intensity()); },
      "color": function() { return 'rgba(' + this.r + ', ' + this.g + ', ' + this.b + ', ' + this.a() + ')'; },
-     "radius": getRandomInt(5, 5)//,
-     //"syncOnNext": false
+     "radius": getRandomInt(5, 5)
   };
   return light;
 }
@@ -76,21 +75,13 @@ function updateLights() {
           current.r = neighbor.r;
           current.g = neighbor.g;
           current.b = neighbor.b;
-          //if (current.intensityPathIndex != neighbor.intensityPathIndex){
-            current.intensityPathIndex = neighbor.intensityPathIndex;
-            //current.syncOnNext = true;
-          //}
-          last = new Date; // move to else if?
+          current.intensityPathIndex = neighbor.intensityPathIndex;
+          last = new Date;
         }
         else {
-          current.interval += 50;//Math.floor(neighbor.interval/2);// 10; //neighbor.interval;
+          current.interval += 50;
         }
       }
-      // else if (current.syncOnNext) {
-      //   console.log("syncing");
-      //   current.intensityPathIndex = neighbor.intensityPathIndex;
-      //   current.syncOnNext = false;
-      // }
     }
 
     drawLight(current);
