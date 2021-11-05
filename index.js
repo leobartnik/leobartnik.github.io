@@ -9,6 +9,8 @@ var margin = 10;
 var last = new Date();
 var lightTimer = 0;
 var timeout = 5000;
+var intervalGap = 40;
+var intervalGapCloser = 20;
 
 function run() {
   lights = [];
@@ -70,7 +72,7 @@ function updateLights() {
     
     if (current.intensity() === 1) { // 1 indicates light is 'off' because of calc that subtracts intensity
       if (neighbor.interval > current.interval) {
-        if (neighbor.interval - current.interval < 50) {
+        if (neighbor.interval - current.interval < intervalGap) {
           current.interval = neighbor.interval;
           current.r = neighbor.r;
           current.g = neighbor.g;
@@ -79,7 +81,7 @@ function updateLights() {
           last = new Date;
         }
         else {
-          current.interval += 50;
+          current.interval += intervalGapCloser;
         }
       }
     }
