@@ -1,6 +1,7 @@
 body {
   /*background-image: linear-gradient(to top , black, navy, black);*/
   background-color: #000000;
+  overflow: hidden;
 }
 
 #outside {
