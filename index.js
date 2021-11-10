@@ -4,7 +4,7 @@ var ctx = canvas.getContext("2d");
 var intensityPath = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
 //var intensityPath = [1.0, 0.8, 0.6, 0.4, 0.2, 0, 0.2, 0.4, 0.6, 0.8];
 var lights = [];
-var lightCount = 100;
+var lightCount = 1000;
 var margin = 10;
 var last = new Date();
 var lightTimer = 0;
@@ -16,7 +16,7 @@ function run() {
   lights = [];
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   var radius = 15;  
-  var random = false;
+  var random = true;
   if (random) {
     for (var i=0; i<lightCount; i++) {
       var xPos = getRandomInt(margin, canvas.width - margin*2);
