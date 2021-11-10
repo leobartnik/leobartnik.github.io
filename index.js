@@ -15,29 +15,45 @@ var intervalGapCloser = 20;
 function run() {
   lights = [];
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (var i=0; i<lightCount; i++) {
-    var light = lightModel();
-    lights.push(light);
-    drawLight(light);
+  var radius = 15;  
+  var random = false;
+  if (random) {
+    for (var i=0; i<lightCount; i++) {
+      var xPos = getRandomInt(margin, canvas.width - margin*2);
+      var yPos = getRandomInt(margin, canvas.height - margin*2);
+      var light = lightModel(xPos, yPos, radius);
+      lights.push(light);
+      drawLight(light);
+    }
+  } else {
+    for (var x=0; x<lightCount/10; x++) {
+      for (var y=0; y<lightCount/10; y++) {
+        var xPos = x*(canvas.width/10) + margin;
+        var yPos = y*(canvas.height/10) + margin;
+        var light = lightModel(xPos, yPos, radius);
+        lights.push(light);
+        drawLight(light);
+      }
+    }
   }
   lightTimer = setInterval(updateLights, 100);
 }
 
-function lightModel() {
+function lightModel(x, y, radius) {
   var light = {
     "interval": getRandomInt(10, 1100),
     "ambientLight": 1,
     "ambientLightIntensity": function() { return 'rgba(0,0,0,' + (1-this.ambientLight) + ')' },
      "intensity": function () { return intensityPath[this.intensityPathIndex]; },
      "intensityPathIndex": getRandomInt(0, intensityPath.length - 1),
-     "x": getRandomInt(margin, canvas.width - margin*2),
-     "y": getRandomInt(margin, canvas.height - margin*2),
+     "x": x, 
+     "y": y,
      "r": getRandomInt(0, 255),
      "g": getRandomInt(0, 255),
      "b": getRandomInt(0, 255),
      "a": function() { return (1 - this.intensity()); },
      "color": function() { return 'rgba(' + this.r + ', ' + this.g + ', ' + this.b + ', ' + this.a() + ')'; },
-     "radius": getRandomInt(5, 5)
+     "radius": radius
   };
   return light;
 }
