@@ -5,7 +5,7 @@ var intensityPath = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0, 0.1, 0
 //var intensityPath = [1.0, 0.8, 0.6, 0.4, 0.2, 0, 0.2, 0.4, 0.6, 0.8];
 var lights = [];
 var lightCount = 1000;
-var margin = 10;
+var margin = 5;
 var last = new Date();
 var lightTimer = 0;
 var timeout = 5000;
@@ -26,10 +26,13 @@ function run() {
       drawLight(light);
     }
   } else {
-    for (var x=0; x<lightCount/10; x++) {
-      for (var y=0; y<lightCount/10; y++) {
-        var xPos = x*(canvas.width/10) + margin;
-        var yPos = y*(canvas.height/10) + margin;
+    var splitter = Math.sqrt(lightCount);
+    var widthSpace = canvas.width/splitter;
+    var heightSpace = canvas.height/splitter;
+    for (var x=0; x<lightCount/splitter; x++) {
+      for (var y=0; y<lightCount/splitter; y++) {
+        var xPos = x*widthSpace + margin;
+        var yPos = y*heightSpace + margin;
         var light = lightModel(xPos, yPos, radius);
         lights.push(light);
         drawLight(light);
