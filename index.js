@@ -12,13 +12,12 @@ var params = Object.fromEntries(request.entries());
 
 var random = getParam('random', 'true');
 var radius = getParam('radius', 5);
-var lightCount = getParam('lightCount', 1000);
+var lightCount = getParam('lightCount', 100);
 
 var timeout = 5000;
 var intervalGap = 40;
 var intervalGapCloser = 20;
 var allowMutation = false;
-
 
 function getParam(paramName, defaultValue) {
   var p = params[paramName];
@@ -87,6 +86,15 @@ function drawLight(light) {
   ctx.fill();
 }
 
+function getNextIntensityPathIndex(currentIndex) {
+  var idx = 
+    currentIndex === intensityPath.length - 1
+      ? 0
+      : currentIndex + 1;
+
+  return idx;
+}
+
 function updateLights() {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -94,10 +102,7 @@ function updateLights() {
   for (var i=0; i<lights.length; i++) {
 
     var current = lights[i];
-    current.intensityPathIndex =
-        current.intensityPathIndex === intensityPath.length - 1
-          ? 0
-          : current.intensityPathIndex + 1;
+    current.intensityPathIndex = getNextIntensityPathIndex(current.intensityPathIndex);
 
     var neighborIndex = i - 1;
     if (neighborIndex < 0) { neighborIndex = lightCount - 1; }
@@ -110,6 +115,8 @@ function updateLights() {
           current.r = neighbor.r;
           current.g = neighbor.g;
           current.b = neighbor.b;
+          //// Join the neighbor, but one step off so that a wave forms
+          //current.intensityPathIndex = getNextIntensityPathIndex(neighbor.intensityPathIndex);
           current.intensityPathIndex = neighbor.intensityPathIndex;
           last = new Date;
         }
