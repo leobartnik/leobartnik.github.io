@@ -2,22 +2,36 @@
 var canvas = document.getElementById("outside");
 var ctx = canvas.getContext("2d");
 var intensityPath = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
-//var intensityPath = [1.0, 0.8, 0.6, 0.4, 0.2, 0, 0.2, 0.4, 0.6, 0.8];
 var lights = [];
-var lightCount = 1000;
 var margin = 5;
 var last = new Date();
 var lightTimer = 0;
+
+var request = new URLSearchParams(window.location.search);
+var params = Object.fromEntries(request.entries());
+
+var random = getParam('random', 'true');
+var radius = getParam('radius', 5);
+var lightCount = getParam('lightCount', 1000);
+
 var timeout = 5000;
 var intervalGap = 40;
 var intervalGapCloser = 20;
+var allowMutation = false;
+
+
+function getParam(paramName, defaultValue) {
+  var p = params[paramName];
+  if (typeof p === 'undefined') {
+    p = defaultValue;
+  }
+  return p;
+}
 
 function run() {
   lights = [];
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  var radius = 15;  
-  var random = true;
-  if (random) {
+  if (random==='true') {
     for (var i=0; i<lightCount; i++) {
       var xPos = getRandomInt(margin, canvas.width - margin*2);
       var yPos = getRandomInt(margin, canvas.height - margin*2);
