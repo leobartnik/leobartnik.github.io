@@ -13,20 +13,13 @@ var params = Object.fromEntries(request.entries());
 var random = getParam('random', 'true');
 var radius = getParam('radius', 5);
 var lightCount = getParam('lightCount', 100);
+var intervalGap = getParam('intervalGap', 40);
+var intervalGapCloser = getParam('intervalGapCloser', 20);
 
 var timeout = 5000;
-var intervalGap = 40;
-var intervalGapCloser = 20;
 var allowMutation = false;
 
-function getParam(paramName, defaultValue) {
-  var p = params[paramName];
-  if (typeof p === 'undefined') {
-    p = defaultValue;
-  }
-  return p;
-}
-
+// main
 function run() {
   lights = [];
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -54,6 +47,7 @@ function run() {
   }
   lightTimer = setInterval(updateLights, 100);
 }
+
 
 function lightModel(x, y, radius) {
   var light = {
@@ -84,15 +78,6 @@ function drawLight(light) {
   ctx.fillStyle = g;
   ctx.closePath();
   ctx.fill();
-}
-
-function getNextIntensityPathIndex(currentIndex) {
-  var idx = 
-    currentIndex === intensityPath.length - 1
-      ? 0
-      : currentIndex + 1;
-
-  return idx;
 }
 
 function updateLights() {
@@ -137,6 +122,24 @@ function updateLights() {
   }
 }
 
+// utility functions
+function getParam(paramName, defaultValue) {
+  var p = params[paramName];
+  if (typeof p === 'undefined') {
+    p = defaultValue;
+  }
+  return p;
+}
+
 function getRandomInt(lower, upper) {
   return Math.floor(Math.random() * Math.floor(upper) + lower);
+}
+
+function getNextIntensityPathIndex(currentIndex) {
+  var idx = 
+    currentIndex === intensityPath.length - 1
+      ? 0
+      : currentIndex + 1;
+
+  return idx;
 }
