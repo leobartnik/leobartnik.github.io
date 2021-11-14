@@ -9,15 +9,14 @@ var lightTimer = 0;
 
 var request = new URLSearchParams(window.location.search);
 var params = Object.fromEntries(request.entries());
-
+//console.log(params);
 var random = getParam('random', 'true');
 var radius = getParam('radius', 5);
 var lightCount = getParam('lightCount', 100);
 var intervalGap = getParam('intervalGap', 40);
 var intervalGapCloser = getParam('intervalGapCloser', 20);
-
-var timeout = 5000;
 var allowMutation = false;
+var timeout = 5000;
 
 // main
 function run() {
@@ -48,7 +47,7 @@ function run() {
   lightTimer = setInterval(updateLights, 100);
 }
 
-
+// lights
 function lightModel(x, y, radius) {
   var light = {
     "interval": getRandomInt(10, 1100),
@@ -128,6 +127,11 @@ function getParam(paramName, defaultValue) {
   if (typeof p === 'undefined') {
     p = defaultValue;
   }
+  if (p === '')
+  {
+    p = defaultValue;
+  }
+  //console.log("p: " + p);
   return p;
 }
 
