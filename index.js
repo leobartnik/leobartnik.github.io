@@ -11,12 +11,18 @@ var request = new URLSearchParams(window.location.search);
 var params = Object.fromEntries(request.entries());
 //console.log(params);
 var random = getParam('random', 'true');
-var radius = getParam('radius', 5);
-var lightCount = getParam('lightCount', 100);
-var intervalGap = getParam('intervalGap', 40);
-var intervalGapCloser = getParam('intervalGapCloser', 20);
-var allowMutation = false;
+var radius = getParam('radius', 8);
+var lightCount = getParam('lightCount', 400);
+var intervalGap = getParam('intervalGap', 20);
+var intervalGapCloser = getParam('intervalGapCloser', 5);
+//var allowMutation = false;
 var timeout = 5000;
+
+// TODO: Add timing to see how long a 'run' lasts?
+// TODO: Make timeout configurable param
+// TODO: Make mutation and make it configurable
+// TODO: Make configurable the ability to set the +1 on the interval for a wave
+// TODO: Catch e.g. non-numeric params?
 
 // main
 function run() {
@@ -123,7 +129,6 @@ function updateLights() {
 
 // utility functions
 function getParam(paramName, defaultValue) {
-  // TODO: catch e.g. non-numeric
   var p = params[paramName];
   if (typeof p === 'undefined') {
     p = defaultValue;
