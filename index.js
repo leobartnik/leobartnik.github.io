@@ -9,7 +9,7 @@ var lightTimer = 0;
 
 var request = new URLSearchParams(window.location.search);
 var params = Object.fromEntries(request.entries());
-//console.log(params);
+
 var random = getParam('random', 'true');
 var radius = getParam('radius', 8);
 var lightCount = getParam('lightCount', 400);
@@ -20,8 +20,7 @@ var timeout = 5000;
 
 // TODO: Add timing to see how long a 'run' lasts?
 // TODO: Make timeout configurable param
-// TODO: Make mutation and make it configurable
-// TODO: Make configurable the ability to set the +1 on the interval for a wave
+// TODO: Make mutation (+1 on interval?  random color change?) and make it configurable
 // TODO: Catch e.g. non-numeric params?
 
 // main
@@ -137,7 +136,7 @@ function getParam(paramName, defaultValue) {
   {
     p = defaultValue;
   }
-  //console.log("p: " + p);
+  console.log(paramName + ": "  + p + "; defaultValue: " + defaultValue);
   return p;
 }
 
