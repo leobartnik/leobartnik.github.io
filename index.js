@@ -123,6 +123,7 @@ function updateLights() {
 
 // utility functions
 function getParam(paramName, defaultValue) {
+  // TODO: catch e.g. non-numeric
   var p = params[paramName];
   if (typeof p === 'undefined') {
     p = defaultValue;
