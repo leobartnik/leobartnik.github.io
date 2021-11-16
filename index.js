@@ -13,13 +13,13 @@ var params = Object.fromEntries(request.entries());
 var random = getParam('random', 'true');
 var radius = getParam('radius', 8);
 var lightCount = getParam('lightCount', 400);
-var intervalGap = getParam('intervalGap', 20);
-var intervalGapCloser = getParam('intervalGapCloser', 5);
+var intervalGap = getParam('intervalGap', 100);
+var intervalGapCloser = getParam('intervalGapCloser', 10);
 //var allowMutation = false;
 var timeout = 5000;
 
 // TODO: Add timing to see how long a 'run' lasts?
-// TODO: Make timeout configurable param
+// TODO: Make timeout configurable param?
 // TODO: Make mutation (+1 on interval?  random color change?) and make it configurable
 // TODO: Catch e.g. non-numeric params?
 
