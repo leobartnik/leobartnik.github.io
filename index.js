@@ -1,5 +1,6 @@
 // globals
-window.onerror = function(errMessage) { alert('error: ' + errMessage); }
+window.onerror = function(errMessage) { alert('Error: ' + errMessage); }
+
 var canvas = document.getElementById("outside");
 var ctx = canvas.getContext("2d");
 var intensityPath = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
@@ -9,14 +10,14 @@ var last = new Date();
 var lightTimer = 0;
 var foo = 42/0;
 
-var request = new URLSearchParams(window.location.search);
-var params = Object.fromEntries(request.entries());
+//var request = new URLSearchParams(window.location.search);
+//var params = Object.fromEntries(request.entries());
 
-var random = getParam('random', 'true');
-var radius = getParam('radius', 8);
-var lightCount = getParam('lightCount', 400);
-var intervalGap = getParam('intervalGap', 100);
-var intervalGapCloser = getParam('intervalGapCloser', 10);
+var random = 'true'; //getParam('random', 'true');
+var radius = 8; //getParam('radius', 8);
+var lightCount = 400; //getParam('lightCount', 400);
+var intervalGap = 100; //getParam('intervalGap', 100);
+var intervalGapCloser = 10; //getParam('intervalGapCloser', 10);
 //var allowMutation = false;
 var timeout = 5000;
 
