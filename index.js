@@ -1,4 +1,5 @@
 // globals
+window.onerror = function(errMessage) { alert('error'); }
 var canvas = document.getElementById("outside");
 var ctx = canvas.getContext("2d");
 var intensityPath = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
@@ -6,17 +7,11 @@ var lights = [];
 var margin = 5;
 var last = new Date();
 var lightTimer = 0;
+var foo = 42/0;
 
-var request = {};
-var params = [];
-try { 
-  request = new URLSearchParams(window.location.search);
-  params = Object.fromEntries(request.entries());
-}
-catch {
-  console.log('error');
-  document.write('error');
-}
+var request = new URLSearchParams(window.location.search);
+var params = Object.fromEntries(request.entries());
+
 var random = getParam('random', 'true');
 var radius = getParam('radius', 8);
 var lightCount = getParam('lightCount', 400);
