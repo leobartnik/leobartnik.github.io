@@ -8,16 +8,15 @@ var lights = [];
 var margin = 5;
 var last = new Date();
 var lightTimer = 0;
-var foo = 42/0;
 
-//var request = new URLSearchParams(window.location.search);
-//var params = Object.fromEntries(request.entries());
+var request = new URLSearchParams(window.location.search);
+var params = Object.fromEntries(request.entries());
 
-var random = 'true'; //getParam('random', 'true');
-var radius = 8; //getParam('radius', 8);
-var lightCount = 400; //getParam('lightCount', 400);
-var intervalGap = 100; //getParam('intervalGap', 100);
-var intervalGapCloser = 10; //getParam('intervalGapCloser', 10);
+var random = getParam('random', 'true');
+var radius = getParam('radius', 8);
+var lightCount = getParam('lightCount', 400);
+var intervalGap = getParam('intervalGap', 100);
+var intervalGapCloser = getParam('intervalGapCloser', 10);
 //var allowMutation = false;
 var timeout = 5000;
 
