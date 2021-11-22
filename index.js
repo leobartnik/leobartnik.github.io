@@ -1,3 +1,5 @@
+"use strict";
+
 // globals
 window.onerror = function(errMessage) { alert('Error: ' + errMessage); }
 
