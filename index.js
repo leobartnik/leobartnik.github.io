@@ -1,7 +1,9 @@
 "use strict";
 
 // globals
-window.onerror = function(errMessage) { alert('Error: ' + errMessage); }
+window.onerror = function(errMessage) {
+  alert("Error: " + errMessage);
+}
 
 var canvas = document.getElementById("outside");
 var ctx = canvas.getContext("2d");
@@ -14,15 +16,15 @@ var lightTimer = 0;
 var request = new URLSearchParams(window.location.search);
 var params = Object.fromEntries(request.entries());
 
-var random = getParam('random', 'true');
-var radius = getParam('radius', 8);
-var lightCount = getParam('lightCount', 400);
-var intervalGap = getParam('intervalGap', 100);
-var intervalGapCloser = getParam('intervalGapCloser', 10);
+var random = getParam("random", "true");
+var radius = getParam("radius", 8);
+var lightCount = getParam("lightCount", 400);
+var intervalGap = getParam("intervalGap", 100);
+var intervalGapCloser = getParam("intervalGapCloser", 10);
 //var allowMutation = false;
 var timeout = 5000;
 
-// TODO: Add timing to see how long a 'run' lasts?
+// TODO: Add timing to see how long a "run" lasts?
 // TODO: Make timeout configurable param?
 // TODO: Make mutation (+1 on interval?  random color change?) and make it configurable
 // TODO: Catch e.g. non-numeric params?
@@ -31,7 +33,7 @@ var timeout = 5000;
 function run() {
   lights = [];
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  if (random==='true') {
+  if (random==="true") {
     for (var i=0; i<lightCount; i++) {
       var xPos = getRandomInt(margin, canvas.width - margin*2);
       var yPos = getRandomInt(margin, canvas.height - margin*2);
@@ -61,16 +63,16 @@ function lightModel(x, y, radius) {
   var light = {
     "interval": getRandomInt(10, 1100),
     "ambientLight": 1,
-    "ambientLightIntensity": function() { return 'rgba(0,0,0,' + (1-this.ambientLight) + ')' },
+    "ambientLightIntensity": function() { return "rgba(0,0,0," + (1-this.ambientLight) + ")" },
      "intensity": function () { return intensityPath[this.intensityPathIndex]; },
      "intensityPathIndex": getRandomInt(0, intensityPath.length - 1),
-     "x": x, 
+     "x": x,
      "y": y,
      "r": getRandomInt(0, 255),
      "g": getRandomInt(0, 255),
      "b": getRandomInt(0, 255),
      "a": function() { return (1 - this.intensity()); },
-     "color": function() { return 'rgba(' + this.r + ', ' + this.g + ', ' + this.b + ', ' + this.a() + ')'; },
+     "color": function() { return "rgba(" + this.r + ", " + this.g + ", " + this.b + ", " + this.a() + ")"; },
      "radius": radius
   };
   return light;
@@ -100,8 +102,8 @@ function updateLights() {
     var neighborIndex = i - 1;
     if (neighborIndex < 0) { neighborIndex = lightCount - 1; }
     var neighbor = lights[neighborIndex];
-    
-    if (current.intensity() === 1) { // 1 indicates light is 'off' because of calc that subtracts intensity
+
+    if (current.intensity() === 1) { // 1 indicates light is "off" because of calc that subtracts intensity
       if (neighbor.interval > current.interval) {
         if (neighbor.interval - current.interval < intervalGap) {
           current.interval = neighbor.interval;
@@ -133,10 +135,10 @@ function updateLights() {
 // utility functions
 function getParam(paramName, defaultValue) {
   var p = params[paramName];
-  if (typeof p === 'undefined') {
+  if (typeof p === "undefined") {
     p = defaultValue;
   }
-  if (p === '')
+  if (p === "")
   {
     p = defaultValue;
   }
@@ -149,7 +151,7 @@ function getRandomInt(lower, upper) {
 }
 
 function getNextIntensityPathIndex(currentIndex) {
-  var idx = 
+  var idx =
     currentIndex === intensityPath.length - 1
       ? 0
       : currentIndex + 1;
