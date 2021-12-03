@@ -7,7 +7,7 @@ window.onerror = function(errMessage) {
 
 var canvas = document.getElementById("outside");
 var ctx = canvas.getContext("2d");
-var intensityPath = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
+var intensityPath = getIntensityPath();
 var lights = [];
 var margin = 5;
 var last = new Date();
@@ -17,23 +17,21 @@ var request = new URLSearchParams(window.location.search);
 var params = Object.fromEntries(request.entries());
 
 var random = getParam("random", "true");
-var radius = getParam("radius", 8);
-var lightCount = getParam("lightCount", 400);
-var intervalGap = getParam("intervalGap", 100);
-var intervalGapCloser = getParam("intervalGapCloser", 10);
-//var allowMutation = false;
+var radius = parseInt(getParam("radius", 8), 10);
+var lightCount = parseInt(getParam("lightCount", 400), 10);
+var intervalGap = parseInt(getParam("intervalGap", 100), 10);
+var intervalGapCloser = parseInt(getParam("intervalGapCloser", 100), 10);
+var flow = getParam("flow", "false");
 var timeout = 5000;
 
-// TODO: Add timing to see how long a "run" lasts?
-// TODO: Make timeout configurable param?
-// TODO: Make mutation (+1 on interval?  random color change?) and make it configurable
-// TODO: Catch e.g. non-numeric params?
+// TODO: Make mutation (+1 on interval?  random color change?) and make it configurable //var allowMutation = false;
+
 
 // main
 function run() {
   lights = [];
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  if (random==="true") {
+  if (random === "true") {
     for (var i=0; i<lightCount; i++) {
       var xPos = getRandomInt(margin, canvas.width - margin*2);
       var yPos = getRandomInt(margin, canvas.height - margin*2);
@@ -110,13 +108,16 @@ function updateLights() {
           current.r = neighbor.r;
           current.g = neighbor.g;
           current.b = neighbor.b;
-          //// Join the neighbor, but one step off so that a wave forms
-          //current.intensityPathIndex = getNextIntensityPathIndex(neighbor.intensityPathIndex);
-          current.intensityPathIndex = neighbor.intensityPathIndex;
+          if (flow === "true") { // instead of taking exact neighbor index, take +1
+            current.intensityPathIndex = getNextIntensityPathIndex(neighbor.intensityPathIndex);
+          } else {
+            current.intensityPathIndex = neighbor.intensityPathIndex;
+          }
           last = new Date;
         }
         else {
           current.interval += intervalGapCloser;
+          //console.log(current.interval);
         }
       }
     }
@@ -133,6 +134,10 @@ function updateLights() {
 }
 
 // utility functions
+function getIntensityPath() {
+  return [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
+}
+
 function getParam(paramName, defaultValue) {
   var p = params[paramName];
   if (typeof p === "undefined") {
