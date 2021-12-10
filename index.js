@@ -13,15 +13,15 @@ var margin = 5;
 var last = new Date();
 var lightTimer = 0;
 
-//var request = new URLSearchParams(window.location.search);
-//var params = Object.fromEntries(request.entries());
+var request = new URLSearchParams(window.location.search);
+var params = Object.fromEntries(request.entries());
 
-var random = "true"; //getParam("random", "true");
-var radius = 8;//parseInt(getParam("radius", 8), 10);
-var lightCount = 400; //parseInt(getParam("lightCount", 400), 10);
-var intervalGap = 100;//parseInt(getParam("intervalGap", 100), 10);
-var intervalGapCloser = 100;//parseInt(getParam("intervalGapCloser", 100), 10);
-var flow = "false"; //getParam("flow", "false");
+var random = getParam("random", "true");
+var radius = parseInt(getParam("radius", 8), 10);
+var lightCount = parseInt(getParam("lightCount", 400), 10);
+var intervalGap = parseInt(getParam("intervalGap", 100), 10);
+var intervalGapCloser = parseInt(getParam("intervalGapCloser", 100), 10);
+var flow = getParam("flow", "false");
 
 var timeout = 5000;
 
