@@ -13,22 +13,27 @@ var margin = 5;
 var last = new Date();
 var lightTimer = 0;
 
-var request = new URLSearchParams(window.location.search);
-var params = Object.fromEntries(request.entries());
+//var request = new URLSearchParams(window.location.search);
+//var params = Object.fromEntries(request.entries());
 
-var random = getParam("random", "true");
-var radius = parseInt(getParam("radius", 8), 10);
-var lightCount = parseInt(getParam("lightCount", 400), 10);
-var intervalGap = parseInt(getParam("intervalGap", 100), 10);
-var intervalGapCloser = parseInt(getParam("intervalGapCloser", 100), 10);
-var flow = getParam("flow", "false");
+var random = "true"; //getParam("random", "true");
+var radius = 8;//parseInt(getParam("radius", 8), 10);
+var lightCount = 400; //parseInt(getParam("lightCount", 400), 10);
+var intervalGap = 100;//parseInt(getParam("intervalGap", 100), 10);
+var intervalGapCloser = 100;//parseInt(getParam("intervalGapCloser", 100), 10);
+var flow = "false"; //getParam("flow", "false");
+
 var timeout = 5000;
 
+// TODO: Use onerror method to deal with browsers that don't support URLSearchParams?  I.e. declare vars outside,
+//       attempt to read, onerror set values?
+// TODO: In the alternative, parse console.log("search: " + window.location.search);
 // TODO: Make mutation (+1 on interval?  random color change?) and make it configurable //var allowMutation = false;
-
+// TODO: Make random vs. ordered toggleable?  I.e. assign a grid position to all lights as well as a random position?
 
 // main
 function run() {
+
   lights = [];
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   if (random === "true") {
