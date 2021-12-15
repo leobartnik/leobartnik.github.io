@@ -18,8 +18,8 @@ var request = new URLSearchParams(window.location.search);
 var params = Object.fromEntries(request.entries());
 
 var random = getParam("random", "true");
-var radius = parseInt(getParam("radius", 8), 10);
-var lightCount = parseInt(getParam("lightCount", 400), 10);
+var radius = parseInt(getParam("radius", 4), 10);
+var lightCount = parseInt(getParam("lightCount", 1000), 10);
 var intervalGap = parseInt(getParam("intervalGap", 100), 10);
 var intervalGapCloser = parseInt(getParam("intervalGapCloser", 100), 10);
 var flow = getParam("flow", "false");
