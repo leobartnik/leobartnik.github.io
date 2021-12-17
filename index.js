@@ -18,16 +18,20 @@ var request = new URLSearchParams(window.location.search);
 var params = Object.fromEntries(request.entries());
 
 var random = getParam("random", "true");
-var radius = parseInt(getParam("radius", 4), 10);
+var radius = parseInt(getParam("radius", 2), 10);
 var lightCount = parseInt(getParam("lightCount", 1000), 10);
 var intervalGap = parseInt(getParam("intervalGap", 100), 10);
 var intervalGapCloser = parseInt(getParam("intervalGapCloser", 100), 10);
 var flow = getParam("flow", "false");
 var timeout = 5000;
 
+// TODO: Make more than one neighbor check
+// TODO: Make random vs. ordered toggleable?  I.e. assign a grid position to all lights as well as a random position
+// TODO: Make a GetNeighborNextIndex function?
+
+// TODO: Make different shape?
 // TODO: Make different intensity path easing functions
 // TODO: Make mutation (+1 on interval?  random color change?) and make it configurable //var allowMutation = false;
-// TODO: Make random vs. ordered toggleable?  I.e. assign a grid position to all lights as well as a random position?
 
 // TODO: Use onerror method to deal with browsers that don't support URLSearchParams?  I.e. declare vars outside,
 //       attempt to read, onerror set values?
@@ -87,13 +91,13 @@ function lightModel(x, y, radius) {
 }
 
 function drawLight(light) {
-  var g = ctx.createRadialGradient(light.x, light.y, radius / 2, light.x, light.y, light.radius);
-  g.addColorStop(0, light.color());
-  g.addColorStop(1, light.ambientLightIntensity());
+  // var g = ctx.createRadialGradient(light.x, light.y, radius / 2, light.x, light.y, light.radius);
+  // g.addColorStop(0, light.color());
+  // g.addColorStop(1, light.ambientLightIntensity());
 
   ctx.beginPath();
   ctx.arc(light.x, light.y, light.radius, 0, Math.PI * 2, true);
-  ctx.fillStyle = g;
+  ctx.fillStyle = light.color(); //g;
   ctx.closePath();
   ctx.fill();
 }
