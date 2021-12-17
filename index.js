@@ -25,14 +25,11 @@ var intervalGapCloser = parseInt(getParam("intervalGapCloser", 100), 10);
 var flow = getParam("flow", "false");
 var timeout = 5000;
 
-// TODO: Make more than one neighbor check
 // TODO: Make random vs. ordered toggleable?  I.e. assign a grid position to all lights as well as a random position
-// TODO: Make a GetNeighborNextIndex function?
-
-// TODO: Make different shape?
 // TODO: Make different intensity path easing functions
-// TODO: Make mutation (+1 on interval?  random color change?) and make it configurable //var allowMutation = false;
 
+// TODO: Make more than one neighbor check?
+// TODO: Make a GetNeighborNextIndex function?
 // TODO: Use onerror method to deal with browsers that don't support URLSearchParams?  I.e. declare vars outside,
 //       attempt to read, onerror set values?
 // TODO: In the alternative, parse using an older approach that is more-browser compatible, eg. console.log("search: " + window.location.search);
